@@ -357,11 +357,32 @@ const rejectComplaint = async (req, res) => {
   }
 };
 
+const getHandlers = async (req, res) => {
+  try {
+    const handlers = await User.find({ role: "HANDLER", isActive: true })
+      .select("firstName lastName email role")
+      .sort({ firstName: 1, lastName: 1 });
+
+    return res.status(200).json({
+      success: true,
+      data: handlers,
+    });
+  } catch (error) {
+    console.error("Get handlers error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Server error while retrieving handlers",
+    });
+  }
+};
+
 module.exports = {
   getAllComplaints,
   getAdminComplaint,
   assignComplaint,
   rejectComplaint,
+  getHandlers,
 };
 
 // const getAllComplaints = async (req, res) => {

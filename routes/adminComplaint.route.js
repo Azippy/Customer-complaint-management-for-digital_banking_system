@@ -12,12 +12,15 @@ const {
   getAdminComplaint,
   assignComplaint,
   rejectComplaint,
+  getHandlers,
 } = require("../controllers/adminComplaint.controller.js");
 
 const protect = require("../middleware/auth.middleware.js");
 const authorize = require("../middleware/role.middleware.js");
 
 const router = express.Router();
+
+router.get("/handlers", protect, authorize("ADMIN"), getHandlers);
 
 router.get("/complaints", protect, authorize("ADMIN"), getAllComplaints);
 
